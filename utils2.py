@@ -39,7 +39,7 @@ def draw(player, stars):
     WIN.blit(BG, (0, 0))
     time_text = FONT.render(f"High Score:{loadeddata}", 1, "white")
     current_score = elapsed_time * 3
-    current_score_text1 = f"Score: {current_score} Points"
+    current_score_text1 = f"Score: {round(current_score)} Points"
     current_score_text = FONT.render(current_score_text1, 1, "white")
     WIN.blit(current_score_text, (10, 39))
     WIN.blit(time_text, (10, 10))
