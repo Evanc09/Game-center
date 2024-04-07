@@ -166,7 +166,6 @@ class TWO_player_Free_play():
             star_count += clock.tick(60)
             elapsed_time = time.time() - start_time
             current_score = elapsed_time * 3
-            print(current_score)
             draw(player, stars)
             pygame.mixer.Sound.play(main_sound)
             time.sleep(0.01)
