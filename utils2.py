@@ -7,7 +7,7 @@ import pygame
 from pygame import mixer
 import time
 pygame.font.init()
-
+global elapsed_time
 loadfile = open("data.dat", "rb")
 loadeddata = pickle.load(loadfile)
 loadfile.close()
@@ -38,7 +38,7 @@ FONT = pygame.font.SysFont("comicsans", 30)
 def draw(player, stars):
     WIN.blit(BG, (0, 0))
     time_text = FONT.render(f"High Score:{loadeddata}", 1, "white")
-    current_score = zero * 3
+    current_score = elapsed_time * 3
     current_score_text1 = f"Score: {current_score} Points"
     current_score_text = FONT.render(current_score_text1, 1, "white")
     WIN.blit(current_score_text, (10, 39))
@@ -60,7 +60,6 @@ def main(lives):
                             PLAYER_WIDTH, PLAYER_HEIGHT)
     clock = pygame.time.Clock()
     start_time = time.time()
-    elapsed_time = 0
 
     star_add_increment = 2000
     star_count = 0
@@ -124,7 +123,7 @@ def main(lives):
             continue_.pack()
             label.pack()
             root.mainloop()
-        draw(player, elapsed_time, stars)
+        draw(player, stars)
 ################################################################################################################
 class TWO_player_Free_play():
     def Free_play():
@@ -147,7 +146,7 @@ class TWO_player_Free_play():
         player = pygame.Rect(200, HEIGHT - PLAYER_HEIGHT,
                             PLAYER_WIDTH, PLAYER_HEIGHT)
         
-        
+        global elapsed_time
         clock = pygame.time.Clock()
         #######################
         start_time = time.time()
@@ -160,7 +159,7 @@ class TWO_player_Free_play():
         stars = []
         hit = False
         
-        global zero
+        
         zero = 0
         while run:
             zero = zero +1
