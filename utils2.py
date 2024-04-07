@@ -38,8 +38,10 @@ FONT = pygame.font.SysFont("comicsans", 30)
 def draw(player, stars):
     WIN.blit(BG, (0, 0))
     time_text = FONT.render(f"High Score:{loadeddata}", 1, "white")
-    
-    
+    current_score = zero * 3
+    current_score_text1 = f"Score: {current_score} Points"
+    current_score_text = FONT.render(current_score_text1, 1, "white")
+    WIN.blit(current_score_text, (10, 39))
     WIN.blit(time_text, (10, 10))
 
     pygame.draw.rect(WIN, "red", player)
@@ -70,10 +72,8 @@ def main(lives):
         star_count += clock.tick(60)
         elapsed_time = time.time() - start_time
         draw(player, stars)
-        current_score = elapsed_time * 3
-        current_score_text1 = f"Score: {current_score} Points"
-        current_score_text = FONT.render(current_score_text1, 1, "white")
-        WIN.blit(current_score_text, (10, 39))
+        
+        
         if star_count > star_add_increment:
             for _ in range(3):
                 star_x = random.randint(0, WIDTH - STAR_WIDTH)
