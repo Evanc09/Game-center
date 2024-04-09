@@ -2,7 +2,18 @@ from random import randint as r
 import sys
 import pygame
 import tkinter as tk
+import pickle
 pygame.mixer.init()
+loadfile = open("fishingdata.dat", "rb")
+list1  = pickle.load(loadfile)
+loadfile.close()
+
+one, two, three = [list1[i] for i in range(len(list1))]
+speeds1 = int(one)
+speeds2 = int(two)
+levely = int(three)
+speed1 = speeds1 
+speed2 = speeds2 
 def astroids():
     import tkinter as tk
     from tkinter import Button
@@ -22,11 +33,12 @@ def astroids():
     testButton.pack()
     b1.pack()
     root1.mainloop()
-    
+
 def game():
 	root.destroy()
 	pygame.init()
-	level = 1
+	
+	level = levely
 	speed = [r(0, 2), r(0 ,2)]
 
 	win = pygame.display.set_mode((1000, 600))
@@ -65,21 +77,19 @@ def game():
 		blit_text_center(win, MAIN_FONT, f"{text}")
 		blit_text_center2(win, MAIN_FONT, f"{text2}")
 		pygame.display.update()
-		pygame.time.delay(4000)
+		pygame.time.delay(2000)
 		while run:
 			
 			
 			pygame.time.delay(10)
 			
-			
-				
-			
 			for event in pygame.event.get():
 				
-				if event.type == pygame.QUIT:
-					
-					# it will make exit the while loop
-					exit()
+						if event.type == pygame.QUIT:
+							exiting()
+				
+			
+			
 			# stores keys pressed
 			keys = pygame.key.get_pressed()
 			
@@ -156,7 +166,7 @@ def game():
 					mp3_up = open("up.mp3")
 					pygame.mixer.music.load(mp3_up)
 					pygame.mixer.music.play()
-					if level == 10:
+					if level == 1000:
 						blit_text_center(win, MAIN_FONT, f"YOU WON THE GAME!!!")
 						pygame.display.update()
 						mp3_win = open("win.mp3")
@@ -164,26 +174,14 @@ def game():
 						pygame.mixer.music.play()
 						pygame.time.delay(4000)
 						sys.exit()
-					
+					global next_level
 					next_level = level +1
 					level = level +1
-					if level == 2:
-						speed = [r(2, 3)-1, r(2, 3)-1]
-					if level == 3:
-						speed = [r(3, 4)-1, r(3, 4)-1]
-					if level == 4:
-						speed = [r(4, 5)-1, r(4, 5)-1]
-					if level == 5:
-						speed = [r(5, 6)-1, r(5, 6)-1]
-					if level == 6:
-						speed = [r(6, 7)-1, r(6, 7)-1]
-					if level == 7:
-						speed = [r(7, 8)-1, r(7, 8)-1]
-					if level == 8:
-						speed = [r(8 ,9)-1, r(8, 9)-1]
-					if level == 9:
-						speed = [r(9, 10)-1, r(9, 10)-1]
+					global speed1, speed2
 					
+					speed1 = speed1 + 1
+					speed2 = speed2 + 1
+					speed = [r(speed1, speed2), r(speed1, speed2)]
 					blit_text_center3(win , MAIN_FONT, f"YOU WON ! next level = {next_level} good luck")
 					pygame.display.update()
 					pygame.time.delay(4000)
@@ -203,11 +201,16 @@ def game():
 			win.fill((0, 0, 255))
 	mainloop(level, speed)
 root = tk.Tk()
-def exit():
-	sys.exit()
 def destroy():
 	root.destroy()
-
+def exiting():
+	savefile = open("fishingdata.dat", "wb")
+	levels = next_level - 1
+	datatosave = [speed1, speed2, levels]
+	pickle.dump(datatosave, savefile)
+	savefile.close()
+	sys.exit()
+	
 b = tk.Button
 b1 = b(text="Play Fishing", command=lambda:[game()])
 b3 = b(text="Exit", command=lambda:[exit()])

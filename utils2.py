@@ -55,7 +55,7 @@ lives = 3
    
 def main(lives):
     run = True
-
+    global elapsed_time
     player = pygame.Rect(200, HEIGHT - PLAYER_HEIGHT,
                             PLAYER_WIDTH, PLAYER_HEIGHT)
     clock = pygame.time.Clock()
@@ -165,7 +165,6 @@ class TWO_player_Free_play():
             zero = zero +1
             star_count += clock.tick(60)
             elapsed_time = time.time() - start_time
-            current_score = elapsed_time * 3
             draw(player, stars)
             pygame.mixer.Sound.play(main_sound)
             time.sleep(0.01)
