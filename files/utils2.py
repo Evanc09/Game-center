@@ -8,7 +8,7 @@ from pygame import mixer
 import time
 pygame.font.init()
 global elapsed_time
-loadfile = open("data.dat", "rb")
+loadfile=open("data.dat", "rb")
 loadeddata = pickle.load(loadfile)
 loadfile.close()
 mixer.init()

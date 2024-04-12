@@ -4,7 +4,7 @@ import pygame
 import tkinter as tk
 import pickle
 pygame.mixer.init()
-loadfile = open("fishingdata.dat", "rb")
+loadfile = open("files/fishingdata.dat", "rb")
 list1  = pickle.load(loadfile)
 loadfile.close()
 
@@ -12,8 +12,8 @@ one, two, three = [list1[i] for i in range(len(list1))]
 speeds1 = int(one)
 speeds2 = int(two)
 levely = int(three)
-speed1 = speeds1 
-speed2 = speeds2 
+speed1 = speeds1
+speed2 = speeds2
 def astroids():
     import tkinter as tk
     from tkinter import Button
@@ -21,7 +21,7 @@ def astroids():
     root.destroy()
     
     try:
-        from utils2 import main, TWO_player_Free_play, lives
+        from files.utils2 import main, TWO_player_Free_play, lives
     except ImportError as ie:
         print(f"Could not import(E: {ie})")
         sys.exit()
@@ -86,7 +86,7 @@ def game():
 			for event in pygame.event.get():
 				
 						if event.type == pygame.QUIT:
-							exiting()
+							sys.exit()
 				
 			
 			
@@ -157,13 +157,13 @@ def game():
 			if if_win or if_win2:
 				if keys[pygame.K_SPACE]:
 					win.fill(red)
-					
+
 					def blit_text_center3(win, font, text):
 						render = font.render(text, 1, (200, 200, 200))
 						win.blit(render, (win.get_width()/2 - render.get_width() /
 										2, win.get_height()/3 - render.get_height()/2))
 					MAIN_FONT = pygame.font.SysFont("comicsans", 44)
-					mp3_up = open("up.mp3")
+					mp3_up = open("files/up.mp3")
 					pygame.mixer.music.load(mp3_up)
 					pygame.mixer.music.play()
 					if level == 1000:
@@ -174,14 +174,19 @@ def game():
 						pygame.mixer.music.play()
 						pygame.time.delay(4000)
 						sys.exit()
-					global next_level
+					global next_level, speed1, speed2
 					next_level = level +1
 					level = level +1
-					global speed1, speed2
+					speed1 = speed1 + 0.5
+					speed2 = speed2 + 0.5
+					print(speed1, speed2)
+					speed = [r(int(speed1), int(speed2)), r(int(speed1), int(speed2))]
+					savefile = open("files/fishingdata.dat", "wb")
+					datatosave = [speed1, speed2, level]
+					pickle.dump(datatosave, savefile)
+					savefile.close()
+
 					
-					speed1 = speed1 + 1
-					speed2 = speed2 + 1
-					speed = [r(speed1, speed2), r(speed1, speed2)]
 					blit_text_center3(win , MAIN_FONT, f"YOU WON ! next level = {next_level} good luck")
 					pygame.display.update()
 					pygame.time.delay(4000)
@@ -203,13 +208,6 @@ def game():
 root = tk.Tk()
 def destroy():
 	root.destroy()
-def exiting():
-	savefile = open("fishingdata.dat", "wb")
-	levels = next_level - 1
-	datatosave = [speed1, speed2, levels]
-	pickle.dump(datatosave, savefile)
-	savefile.close()
-	sys.exit()
 	
 b = tk.Button
 b1 = b(text="Play Fishing", command=lambda:[game()])
