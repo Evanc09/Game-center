@@ -2,15 +2,28 @@ import random
 import time
 import tkinter as tk
 import sys
+f = open("files/log.txt", "r+")
+sys.stdout = f
 import pickle
 import pygame
 from pygame import mixer
 import time
+
 pygame.font.init()
 global elapsed_time
-loadfile=open("data.dat", "rb")
-loadeddata = pickle.load(loadfile)
-loadfile.close()
+
+
+
+try:
+    loadfile=open("data.dat", "rb")
+    loadeddata = pickle.load(loadfile)
+    loadfile.close()
+except FileNotFoundError as ei:
+    print("Error loading data")
+    print("See below for more information")
+    print(f"""Error(For people with python knowledge only):
+          {ei}""")
+
 mixer.init()
 import os
 
@@ -21,7 +34,16 @@ pygame.display.set_caption("Astroids")
 try:
   BG=pygame.image.load(os.path.join('bg.jpeg')).convert()
 except FileNotFoundError as ie:
-    print("File Not found:", ie)
+    print("Error loading image")
+    print("See below for more information")
+    print(f"""Error(For people with code knowledge only): 
+          {ie}""")
+    for counts, line in enumerate(f):
+        pass
+    count = counts + 1
+    print(count + 1)
+    if count >= 60:
+        f.truncate(0)
     sys.exit()
 
 PLAYER_WIDTH = 40
@@ -230,6 +252,8 @@ class TWO_player_Free_play():
                         pass
                 pygame.mixer.Sound.play(ouch)
                 def stop():
+                    f.close()
+
                     sys.exit()
                 WIN.blit(lost_text, (WIDTH/2 - lost_text.get_width()/2, HEIGHT/2 - lost_text.get_height()/2))
                 pygame.display.update()
@@ -249,7 +273,7 @@ class TWO_player_Free_play():
                 
                 
             draw(player, stars)
-          
+f.close()
 
 
 

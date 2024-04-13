@@ -1,12 +1,27 @@
 from random import randint as r
 import sys
+f = open("files/log.txt", "r+")
 import pygame
 import tkinter as tk
 import pickle
 pygame.mixer.init()
-loadfile = open("files/fishingdata.dat", "rb")
-list1  = pickle.load(loadfile)
-loadfile.close()
+sys.stdout = f
+try:
+	loadfile = open("files/fishingdata.dat", "rb")
+	list1  = pickle.load(loadfile)
+	loadfile.close()
+except FileNotFoundError as info:
+	print("Error loading data")
+	print("See below for more information")
+	print(f"""Error(For people with python knowledge only):
+          {info}""")
+	for counts, line in enumerate(f):
+		pass
+	count = counts + 1
+	print(count + 1)
+	if count >= 60:
+		f.truncate(0)
+	sys.exit()
 
 one, two, three = [list1[i] for i in range(len(list1))]
 speeds1 = int(one)
@@ -86,6 +101,7 @@ def game():
 			for event in pygame.event.get():
 				
 						if event.type == pygame.QUIT:
+							f.close()
 							sys.exit()
 				
 			
@@ -173,13 +189,14 @@ def game():
 						pygame.mixer.music.load(mp3_win)
 						pygame.mixer.music.play()
 						pygame.time.delay(4000)
+						f.close()
 						sys.exit()
 					global next_level, speed1, speed2
 					next_level = level +1
 					level = level +1
 					speed1 = speed1 + 0.5
 					speed2 = speed2 + 0.5
-					print(speed1, speed2)
+					#print(speed1, speed2)
 					speed = [r(int(speed1), int(speed2)), r(int(speed1), int(speed2))]
 					savefile = open("files/fishingdata.dat", "wb")
 					datatosave = [speed1, speed2, level]
@@ -211,7 +228,7 @@ def destroy():
 	
 b = tk.Button
 b1 = b(text="Play Fishing", command=lambda:[game()])
-b3 = b(text="Exit", command=lambda:[exit()])
+b3 = b(text="Exit", command=lambda:[f.close(), exit()])
 b2 = b(text="Play astroids", command=lambda:[astroids()])
 
 b1.pack()
