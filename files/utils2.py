@@ -12,19 +12,21 @@ import time
 
 pygame.font.init()
 global elapsed_time
-logging.basicConfig(filename='main.log', filemode='a+', format='%(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(format='%(asctime)s %(levelname)s:%(name)s:%(message)s', filename="main.log", filemode="a+")
 logger = logging.getLogger()
-logger.addHandler(logging.StreamHandler())
-
-
+logger.setLevel(logging.INFO)
 try:
     loadfile=open("data.dat", "rb")
     loadeddata = pickle.load(loadfile)
     loadfile.close()
 except FileNotFoundError as ei:
     print("Error loading data")
-    print("See below for more information")
-    print(f"""Error(For people with python knowledge only):
+    
+    print(f"""Error:
+          {ei}""")
+    logging.error(f"""Error loading data
+                    See below for more information
+                    Error(For people with python knowledge only):
           {ei}""")
 
 mixer.init()
@@ -38,8 +40,11 @@ try:
   BG=pygame.image.load(os.path.join('bg.jpeg')).convert()
 except FileNotFoundError as ie:
     print("Error loading image")
-    print("See below for more information")
-    print(f"""Error(For people with code knowledge only): 
+    print(f"""Error: 
+          {ie}""")
+    logging.error(f"""Error loading image
+    See below for more information
+    Error(For people with code knowledge only): 
           {ie}""")
     #for counts, line in enumerate(f):
         #pass
@@ -47,6 +52,7 @@ except FileNotFoundError as ie:
     #print(count + 1)
     #if count >= 60:
         #f.truncate(0)
+    logging.info("Exiting because of critical error")
     sys.exit()
 
 PLAYER_WIDTH = 40
@@ -131,6 +137,7 @@ def main(lives):
         if hit:
             lives = lives -1
             print(lives)
+            logging.info("lives:", lives)
             def destroy():
                 root.destroy()
             lost_text = FONT.render("You Lost!", 1, "white")
