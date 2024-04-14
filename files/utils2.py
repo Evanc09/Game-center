@@ -2,8 +2,9 @@ import random
 import time
 import tkinter as tk
 import sys
-f = open("files/log.txt", "r+")
-sys.stdout = f
+import logging
+#f = open("files/log.txt", "r+")
+#sys.stdout = f
 import pickle
 import pygame
 from pygame import mixer
@@ -11,7 +12,9 @@ import time
 
 pygame.font.init()
 global elapsed_time
-
+logging.basicConfig(filename='main.log', filemode='a+', format='%(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger()
+logger.addHandler(logging.StreamHandler())
 
 
 try:
@@ -38,12 +41,12 @@ except FileNotFoundError as ie:
     print("See below for more information")
     print(f"""Error(For people with code knowledge only): 
           {ie}""")
-    for counts, line in enumerate(f):
-        pass
-    count = counts + 1
-    print(count + 1)
-    if count >= 60:
-        f.truncate(0)
+    #for counts, line in enumerate(f):
+        #pass
+    #count = counts + 1
+    #print(count + 1)
+    #if count >= 60:
+        #f.truncate(0)
     sys.exit()
 
 PLAYER_WIDTH = 40
@@ -252,7 +255,7 @@ class TWO_player_Free_play():
                         pass
                 pygame.mixer.Sound.play(ouch)
                 def stop():
-                    f.close()
+                    #f.close()
 
                     sys.exit()
                 WIN.blit(lost_text, (WIDTH/2 - lost_text.get_width()/2, HEIGHT/2 - lost_text.get_height()/2))
@@ -273,7 +276,7 @@ class TWO_player_Free_play():
                 
                 
             draw(player, stars)
-f.close()
+#f.close()
 
 
 
