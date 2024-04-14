@@ -1,6 +1,5 @@
 from random import randint as r
 import sys
-
 import pygame
 import tkinter as tk
 import pickle
@@ -184,8 +183,8 @@ def game():
 					global next_level, speed1, speed2
 					next_level = level +1
 					level = level +1
-					speed1 = speed1 + 0.5
-					speed2 = speed2 + 0.5
+					speed1 = speed1 + 0.3
+					speed2 = speed2 + 0.4
 					#print(speed1, speed2)
 					speed = [r(int(speed1), int(speed2)), r(int(speed1), int(speed2))]
 					savefile = open("files/fishingdata.dat", "wb")
@@ -196,7 +195,7 @@ def game():
 					
 					blit_text_center3(win , MAIN_FONT, f"YOU WON ! next level = {next_level} good luck")
 					pygame.display.update()
-					pygame.time.delay(4000)
+					pygame.time.delay(999)
 					mainloop(level, speed)
 				else:
 					continue
